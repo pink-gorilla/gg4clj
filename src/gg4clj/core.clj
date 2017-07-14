@@ -127,7 +127,7 @@
          rendered-plot (slurp out-path)
          _ (.delete r-file)
          _ (.delete out-file)]
-     (mangle-ids rendered-plot))))
+     rendered-plot)))
 
 
 ;; * Gorilla REPL rendering *
