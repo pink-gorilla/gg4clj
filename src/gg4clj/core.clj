@@ -139,7 +139,7 @@
 (extend-type GGView
   render/Renderable
   (render [self]
-    {:type :html :content (render (:plot-command self) (:options self)) :value (pr-str self)}))
+    {:type :html :content (render (:plot-command self) (:options self)) :value (hash self)}))
 
 (defn view
   "View a ggplot2 command, expressed in the Clojure representation of R code, in Gorilla REPL. Options can be passed
