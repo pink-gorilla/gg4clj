@@ -2,7 +2,7 @@
 ;;;;
 ;;;; gg4clj is licenced to you under the MIT licence. See the file LICENCE.txt for full details.
 
-(ns gg4clj.core
+(ns pinkgorilla.ui.gg4clj
   (:import (java.io File)
            (java.util UUID))
   (:require [clojure.java.shell :as shell]

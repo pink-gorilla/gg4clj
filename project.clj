@@ -2,15 +2,21 @@
 ;;;;
 ;;;; gg4clj is licenced to you under the MIT licence. See the file LICENCE.txt for full details.
 
-(defproject gg4clj "0.1.7"
+(defproject pinkgorilla.ui.gg4clj "0.1.7"
   :description "A simple wrapper for R's ggplot2 in Clojure and Gorilla REPL."
-  :url "https://github.com/JonyEpsilon/gg4clj"
+  :url "https://github.com/pinkgorillawb/gg4clj"
   :license {:name "MIT"}
-  :dependencies [
-       [org.clojure/clojure "1.10.0"]
-       [gorilla-renderable "1.0.0"]
-]
+  
+  ;:deploy-repositories [["releases" :clojars]]
+  :repositories [["clojars" {:url "https://clojars.org/repo"
+                             :username "pinkgorillawb"
+                             :sign-releases false}]]
+  
+  :dependencies 
+  [[org.clojure/clojure "1.10.0"]
+   [org.clojars.deas/gorilla-renderable "2.1.0"] ;PinkGorilla Renderable
+   ]
   :plugins [
-      [org.clojars.benfb/lein-gorilla "0.6.0"]
+      ; [org.clojars.benfb/lein-gorilla "0.6.0"]
       ;[lein-gorilla "0.3.4"]
-  ])
+            ])

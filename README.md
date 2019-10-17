@@ -1,5 +1,13 @@
 # gg4clj
 
+R ggplot wrapper for Clojure, ported to PinkGorilla Workbook.
+
+## History
+- Original source is from JonyEpsilon: https://github.com/JonyEpsilon/gg4clj
+- We forked from a more up-to-date fork from https://github.com/quan-nh/gg4clj
+
+
+
 gg4clj is a lightweight wrapper to make it easy to use R's ggplot2 library from Clojure. It provides a straightforward
 way to express R code as Clojure data, including easy mapping between Clojure data and R's data.frame, and some plumbing
 to send this code to R and recover the rendered graphics. It also provides a Gorilla REPL renderer plugin to allow
