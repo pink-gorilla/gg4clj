@@ -5,9 +5,10 @@
 (ns pinkgorilla.ui.gg4clj
   (:import (java.io File)
            (java.util UUID))
-  (:require [clojure.java.shell :as shell]
-            [clojure.string :as string]
-            [gorilla-renderable.core :as render]))
+  (:require 
+   [clojure.java.shell :as shell]
+   [clojure.string :as string]
+   [pinkgorilla.ui.gorilla-renderable :as render]))
 
 
 ;; * Functions for building R code *
