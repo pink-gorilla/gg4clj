@@ -6,7 +6,10 @@
    [clojure.string :as string]
    [clojure.walk :refer [prewalk]]
    [pl.danieljanus.tagsoup :as ts]
-   ))
+   [com.rpl.specter :refer [transform ALL]]))
+
+
+(def keep-tempfiles? false)
 
 
 ;; * Functions for building R code *
@@ -125,9 +128,8 @@
          _ (rscript r-path)
          ;rendered-plot (slurp svg-path)
          rendered-plot (ts/parse-string (slurp svg-path))
-         ;_ (.delete r-file)
-         ;_ (.delete svg-file)
-         ]
+         _ (when (not keep-tempfiles?) (.delete r-file))
+         _ (when (not keep-tempfiles?) (.delete svg-file))]
      rendered-plot)))
 
 
@@ -154,7 +156,8 @@
        x))
    svg))
 
-
+(defn inject-dimensions [w h hiccup-svg]
+  (transform [1] #(assoc % :style {:width w :height h}) hiccup-svg))
 
 
 (defn view
@@ -164,22 +167,30 @@
   ([plot-command] (view plot-command {}))
   ([plot-command options]
    (let [width (or (:width options) 6.5)
-        height (or (:height options) (/ width 1.618))]
-   ^:R [:div.ggplot {:style {:width (* 100 width) ; dimensions have to go on the svg
-                            :height (* 100 height) }}
+         height (or (:height options) (/ width 1.618))
+         w (* 72 width)
+         h (* 72 height)]
+     ^:R [:div.rggplot
         ;[:p/html (render plot-command options)]
-        (fix-viewbox (render plot-command options))
-        ])))
+          (->> (render plot-command options)
+               (fix-viewbox)
+               (inject-dimensions w h))])))
 
 
 
 (comment
-  
-  (require '[pl.danieljanus.tagsoup :as ts])
-  
-;  "0.2.0-alpha6"
-  
+
   (ts/parse-string (slurp "/tmp/gg4clj2773607344336357351.svg"))
-  
+
+  (transform [1 :a even?]
+             inc
+             [{:a 1} {:a 2} {:a 3} {:a 4}])
+
+
+  (inject-dimensions
+   [:svg {:viewbox "0 0 288.00 144.00"}
+    [:circle]
+    [:rect]] 300 200)
+
   ;comment end
   )

@@ -3,10 +3,10 @@
   <groupId>pinkgorilla.ui.gg4clj</groupId>
   <artifactId>pinkgorilla.ui.gg4clj</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.13</version>
+  <version>0.1.15</version>
   <name>pinkgorilla.ui.gg4clj</name>
   <description>Wrapper for R's ggplot2 for PinkGorilla Notebook</description>
-  <url>https://github.com/pinkgorillawb/gg4clj</url>
+  <url>https://github.com/pink-gorilla/gg4clj</url>
   <licenses>
     <license>
       <name>MIT</name>
@@ -16,7 +16,7 @@
     <url>https://github.com/pink-gorilla/gg4clj</url>
     <connection>scm:git:git://github.com/pink-gorilla/gg4clj.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/pink-gorilla/gg4clj.git</developerConnection>
-    <tag>4cbf2b4fb5872a1d2fc92c9b836197255fd4a336</tag>
+    <tag>a7a8f860f830ac49fc1be4880a2249ab5b3d3044</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -65,6 +65,11 @@
       <groupId>org.clojure</groupId>
       <artifactId>clojure</artifactId>
       <version>1.10.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.rpl</groupId>
+      <artifactId>specter</artifactId>
+      <version>1.1.3</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
