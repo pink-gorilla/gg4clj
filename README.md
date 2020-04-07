@@ -1,19 +1,10 @@
 # gg4clj
 
-R ggplot wrapper for Clojure, ported to PinkGorilla Workbook.
+R ggplot wrapper for Clojure, ported to PinkGorilla Notebook.
 
-## History
-- Original source is from JonyEpsilon: https://github.com/JonyEpsilon/gg4clj
-- We forked from a more up-to-date fork from https://github.com/quan-nh/gg4clj
-
-
-
-gg4clj is a lightweight wrapper to make it easy to use R's ggplot2 library from Clojure. It provides a straightforward
-way to express R code as Clojure data, including easy mapping between Clojure data and R's data.frame, and some plumbing
-to send this code to R and recover the rendered graphics. It also provides a Gorilla REPL renderer plugin to allow
-rendered plots to be displayed inline in Gorilla worksheets. It is not a Clojure rewrite of ggplot2 - it calls R, which
-must be installed on your system (see below), to render the plots. You'll need to be familiar with R and ggplot2, or
-else the commands will seem fairly cryptic.
+Essentially starts R in new process, issues R commands to it.
+R library ggplot is used to render the plots as svg to a temporary file.
+Temporary SVG file is rendered as hiccup marcup via Pinkie Rendering System (^:R)
 
 An example, generating some random numbers in Clojure, and then plotting a 2D-density in ggplot:
 
@@ -39,19 +30,13 @@ An example, generating some random numbers in Clojure, and then plotting a 2D-de
              {:width 5 :height 5})
 ```
 
-![Example plot](example.png)
+![Example plot](readme-example.png)
 
-See more examples in the `ws/demo.clj` worksheet, which you can view here:
-
-http://viewer.gorilla-repl.org/view.html?source=github&user=JonyEpsilon&repo=gg4clj&path=ws/demo.clj
 
 
 ## Setup
 
-To use gg4clj in your project add it as a dependency to your `project.clj` file:
 
-```clojure
-[gg4clj "0.1.0"]
 ```
 
 You will need to have R installed, and on your path so it's accessible from the command line. If you can run `Rscript`
@@ -98,17 +83,7 @@ some R code and:
 It returns a string which is the plot rendered as SVG. It can take options (currently `:width` and `:height`) to control
 the rendered output. Each evaluation is done in a new R process.
 
-Finally, the function `view` integrates the above into Gorilla REPL. It manages wrapping the generated plot for
-rendering in Gorilla, and takes care of attaching the Clojure form of the R code as the plot's alternate value, so that
-value copy-and-paste works seamlessly. It is called in the same manner as `render`.
+## History
+- Original source is from JonyEpsilon: https://github.com/JonyEpsilon/gg4clj
+- We forked from a more up-to-date fork from https://github.com/quan-nh/gg4clj
 
-For examples of how to put all of the above functions together, please refer to the examples in the demo worksheet:
-
-http://viewer.gorilla-repl.org/view.html?source=github&user=JonyEpsilon&repo=gg4clj&path=ws/demo.clj
-
-
-## License
-
-gg4clj is licensed to you under the MIT licence. See LICENCE.txt for details.
-
-Copyright © 2014- Jony Hudson

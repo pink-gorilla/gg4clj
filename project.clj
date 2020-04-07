@@ -1,9 +1,5 @@
-;;;; This file is part of gg4clj. Copyright (C) 2014-, Jony Hudson.
-;;;;
-;;;; gg4clj is licenced to you under the MIT licence. See the file LICENCE.txt for full details.
-
-(defproject pinkgorilla.ui.gg4clj "0.1.12"
-  :description "A simple wrapper for R's ggplot2 in Clojure and Gorilla REPL."
+(defproject pinkgorilla.ui.gg4clj "0.1.13"
+  :description "Wrapper for R's ggplot2 for PinkGorilla Notebook"
   :url "https://github.com/pinkgorillawb/gg4clj"
   :license {:name "MIT"}
   
@@ -12,8 +8,11 @@
                              :username "pinkgorillawb"
                              :sign-releases false}]]
   :dependencies 
-  [;[org.clojure/clojure "1.10.0"]
-   [org.clojure/clojure "1.9.0-alpha14"]  ; downgrade to pinggorilla version
-   [pinkgorilla.ui.gorilla-renderable "2.0.9"] ;PinkGorilla Renderable
-   ]
-)
+  [[org.clojure/clojure "1.10.1"]
+   [org.clojure/data.xml "0.0.8" ] ; "0.2.0-alpha6"]
+   [clj-tagsoup/clj-tagsoup "0.3.0" ; to parse xml from the svg
+    :exclusions [org.clojure/clojure ; very, very old clojure version. 
+                 org.clojure/core.specs.alpha
+                 org.clojure/data.xml ; damn old - "0.0.3"
+                  ]] 
+   ])

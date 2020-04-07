@@ -1,14 +1,12 @@
-;;;; This file is part of gg4clj. Copyright (C) 2014-, Jony Hudson.
-;;;;
-;;;; gg4clj is licenced to you under the MIT licence. See the file LICENCE.txt for full details.
-
-(ns pinkgorilla.ui.gg4clj
+(ns pinkgorilla.dsl.r.ggplot
   (:import (java.io File)
            (java.util UUID))
-  (:require 
+  (:require
    [clojure.java.shell :as shell]
    [clojure.string :as string]
-   [pinkgorilla.ui.gorilla-renderable :as render]))
+   [clojure.walk :refer [prewalk]]
+   [pl.danieljanus.tagsoup :as ts]
+   ))
 
 
 ;; * Functions for building R code *
@@ -56,13 +54,13 @@
   [code]
   (cond
     ;; vectors are either function calls or lists of commands
-    (vector? code) (if (vector? (first code))
-                     (string/join ";\n" (map to-r code))
-                     (fn-from-vec code))
-    (map? code) (named-args-from-map code)
-    (keyword? code) (name code)
-    (string? code) (quote-string code)
-    true (pr-str code)))
+    (vector? code)   (if (vector? (first code))
+                       (string/join ";\n" (map to-r code))
+                       (fn-from-vec code))
+    (map? code)      (named-args-from-map code)
+    (keyword? code)  (name code)
+    (string? code)   (quote-string code)
+    true             (pr-str code)))
 
 (defn data-frame
   "A helper function that takes frame-like data in the 'natural' Clojure format of
@@ -91,9 +89,9 @@
   "Wraps the given R command with commands to load ggplot2 and save the last plot to the given file."
   [command filepath width height]
   (to-r
-    [[:library :ggplot2]
-     command
-     [:ggsave {:filename filepath :width width :height height}]]))
+   [[:library :ggplot2]
+    command
+    [:ggsave {:filename filepath :width width :height height}]]))
 
 (defn- mangle-ids
   "ggplot produces SVGs with elements that have id attributes. These ids are unique within each plot, but are
@@ -121,26 +119,43 @@
          r-file (File/createTempFile "gg4clj" ".r")
          r-path (.getAbsolutePath r-file)
          ;;_ (println r-path)
-         out-file (File/createTempFile "gg4clj" ".svg")
-         out-path (.getAbsolutePath out-file)
-         _ (spit r-path (wrap-ggplot plot-command out-path width height))
+         svg-file (File/createTempFile "gg4clj" ".svg")
+         svg-path (.getAbsolutePath svg-file)
+         _ (spit r-path (wrap-ggplot plot-command svg-path width height))
          _ (rscript r-path)
-         rendered-plot (slurp out-path)
-         _ (.delete r-file)
-         _ (.delete out-file)]
+         ;rendered-plot (slurp svg-path)
+         rendered-plot (ts/parse-string (slurp svg-path))
+         ;_ (.delete r-file)
+         ;_ (.delete svg-file)
+         ]
      rendered-plot)))
 
 
-;; * Gorilla REPL rendering *
+(defn is-viewbox? [x]
+  ;(println "is-style? " x)
+  (if (and (vector? x)
+           (> 1 (count x))
+           (= (first x) :viewbox))
+    true
+    false))
 
-(defrecord GGView [plot-command options])
+(defn replace-viewbox [x]
+  (println "replacing viewbox -> viewBox : " x)
+  (into [] (assoc x 0 :viewBox)))
 
-;; This renderer displays the rendered SVG output, and attaches the plot-command (in Clojure) as
-;; the rendered item's value.
-(extend-type GGView
-  render/Renderable
-  (render [self]
-    {:type :html :content (render (:plot-command self) (:options self)) :value (hash self)}))
+(defn fix-viewbox
+  "resolve function-as symbol to function references in the reagent-hickup-map.
+   Leaves regular hiccup data unchanged."
+  [svg]
+  (prewalk
+   (fn [x]
+     (if (is-viewbox? x)
+       (replace-viewbox x)
+       x))
+   svg))
+
+
+
 
 (defn view
   "View a ggplot2 command, expressed in the Clojure representation of R code, in Gorilla REPL. Options can be passed
@@ -148,4 +163,23 @@
   :width is given then a sensible default height will be chosen."
   ([plot-command] (view plot-command {}))
   ([plot-command options]
-   (GGView. plot-command options)))
+   (let [width (or (:width options) 6.5)
+        height (or (:height options) (/ width 1.618))]
+   ^:R [:div.ggplot {:style {:width (* 100 width) ; dimensions have to go on the svg
+                            :height (* 100 height) }}
+        ;[:p/html (render plot-command options)]
+        (fix-viewbox (render plot-command options))
+        ])))
+
+
+
+(comment
+  
+  (require '[pl.danieljanus.tagsoup :as ts])
+  
+;  "0.2.0-alpha6"
+  
+  (ts/parse-string (slurp "/tmp/gg4clj2773607344336357351.svg"))
+  
+  ;comment end
+  )
