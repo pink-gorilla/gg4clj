@@ -180,6 +180,11 @@
 
 (comment
 
+  ;; https://stackoverflow.com/questions/6535927/how-do-i-prevent-rplots-pdf-from-being-generated  
+  ;; pdf (NULL)
+  
+  
+
   (ts/parse-string (slurp "/tmp/gg4clj2773607344336357351.svg"))
 
   (transform [1 :a even?]
