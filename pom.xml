@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>pinkgorilla.ui.gg4clj</groupId>
-  <artifactId>pinkgorilla.ui.gg4clj</artifactId>
+  <groupId>org.pinkgorilla</groupId>
+  <artifactId>gg4clj</artifactId>
   <packaging>jar</packaging>
   <version>0.1.15</version>
-  <name>pinkgorilla.ui.gg4clj</name>
+  <name>gg4clj</name>
   <description>Wrapper for R's ggplot2 for PinkGorilla Notebook</description>
   <url>https://github.com/pink-gorilla/gg4clj</url>
   <licenses>
@@ -16,7 +16,7 @@
     <url>https://github.com/pink-gorilla/gg4clj</url>
     <connection>scm:git:git://github.com/pink-gorilla/gg4clj.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/pink-gorilla/gg4clj.git</developerConnection>
-    <tag>d0d8dd0d0a6ad0c86f3d192cf3c2d4e3af85902b</tag>
+    <tag>095a488a735526fa254d8fd526c3fa1e254ad313</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>

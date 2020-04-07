@@ -1,4 +1,4 @@
-(defproject pinkgorilla.ui.gg4clj "0.1.15"
+(defproject org.pinkgorilla/gg4clj "0.1.15"
   :description "Wrapper for R's ggplot2 for PinkGorilla Notebook"
   :url "https://github.com/pink-gorilla/gg4clj"
   :license {:name "MIT"}
