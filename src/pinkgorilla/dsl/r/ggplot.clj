@@ -133,17 +133,17 @@
      rendered-plot)))
 
 
-(defn is-viewbox? [x]
+(defn is-tag? [tag x]
   ;(println "is-style? " x)
   (if (and (vector? x)
            (> 1 (count x))
-           (= (first x) :viewbox))
+           (= (first x) tag))
     true
     false))
 
-(defn replace-viewbox [x]
-  (println "replacing viewbox -> viewBox : " x)
-  (into [] (assoc x 0 :viewBox)))
+(defn replace-with [tag x]
+  (println "replacing tag" tag x)
+  (into [] (assoc x 0 tag)))
 
 (defn fix-viewbox
   "resolve function-as symbol to function references in the reagent-hickup-map.
@@ -151,9 +151,10 @@
   [svg]
   (prewalk
    (fn [x]
-     (if (is-viewbox? x)
-       (replace-viewbox x)
-       x))
+     (cond (is-tag? :viewbox x) (replace-with :viewBox x)
+           (is-tag? :textlength x) (replace-with :textLength x)
+           (is-tag? :lengthAdjust x) (replace-with :lengthAdjust x)
+           :else x))
    svg))
 
 (defn inject-dimensions [w h hiccup-svg]
