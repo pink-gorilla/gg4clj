@@ -3,7 +3,7 @@
   <groupId>org.pinkgorilla</groupId>
   <artifactId>gg4clj</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.16</version>
+  <version>0.1.18</version>
   <name>gg4clj</name>
   <description>Wrapper for R's ggplot2 for PinkGorilla Notebook</description>
   <url>https://github.com/pink-gorilla/gg4clj</url>
@@ -16,7 +16,7 @@
     <url>https://github.com/pink-gorilla/gg4clj</url>
     <connection>scm:git:git://github.com/pink-gorilla/gg4clj.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/pink-gorilla/gg4clj.git</developerConnection>
-    <tag>829f9f601d8895cf0ffb2745704b0b7e0dfd5d55</tag>
+    <tag>84cb9e460e03797a64775f34e02a123a6e12ae17</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>

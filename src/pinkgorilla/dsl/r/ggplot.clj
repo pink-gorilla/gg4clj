@@ -6,7 +6,8 @@
    [clojure.string :as string]
    [clojure.walk :refer [prewalk]]
    [pl.danieljanus.tagsoup :as ts]
-   [com.rpl.specter :refer [transform ALL]]))
+   [com.rpl.specter :refer [transform ALL]]
+   [pinkgorilla.dsl.r.style :refer [convert-style-as-strings-to-map]]))
 
 
 (def keep-tempfiles? false)
@@ -145,7 +146,7 @@
   (println "replacing tag" tag x)
   (into [] (assoc x 0 tag)))
 
-(defn fix-viewbox
+(defn fix-case-tags
   "resolve function-as symbol to function references in the reagent-hickup-map.
    Leaves regular hiccup data unchanged."
   [svg]
@@ -174,7 +175,8 @@
      ^:R [:div.rggplot
         ;[:p/html (render plot-command options)]
           (->> (render plot-command options)
-               (fix-viewbox)
+               (convert-style-as-strings-to-map)
+               (fix-case-tags)
                (inject-dimensions w h))])))
 
 
